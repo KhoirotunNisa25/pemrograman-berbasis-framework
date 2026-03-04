@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import handler from '../../../../../jobsheet2-setup/my-app/src/pages/api/hello';
 
 const halamanLogin = () => {
-    const {push} = useRouter();
+    const { push } = useRouter();
     const handlerLogin = () => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('isLogin', 'true');
+        }
         push('/produk');
     }
     return (

@@ -1,9 +1,16 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const halamanKategori = () => {
-    const { query} = useRouter();
+    const { query, push } = useRouter();
     const slug = query.slug as string[] | undefined;
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const isLogin = localStorage.getItem('isLogin') === 'true';
+            if (!isLogin) push('/auth/login');
+        }
+    }, [push]);
 
     return (
         <div>
