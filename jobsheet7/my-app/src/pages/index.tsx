@@ -14,7 +14,7 @@ export default function Home() {
       </head>
       <div>
         <h1>Praktikum Pemrograman Framework</h1>
-        <p>Jobsheet 6</p>
+        <p>Jobsheet 7</p>
       </div>
       <div>
         <nav>
