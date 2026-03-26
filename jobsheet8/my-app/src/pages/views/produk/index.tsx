@@ -25,7 +25,7 @@ const TampilanProduk = ({ products }: { products: ProductType[] }) => {
                         </div>
                     ))}
                     </>
-            ) : (
+                ) : (
                 <div className={styles.produk__content__skeleton}>
                     <div className={styles.produk__content__skeleton__image}></div>
                     <div className={styles.produk__content__skeleton__name}></div>
@@ -33,7 +33,7 @@ const TampilanProduk = ({ products }: { products: ProductType[] }) => {
                     <div className={styles.produk__content__skeleton__size}></div>
                     <div className={styles.produk__content__skeleton__category}></div>
                 </div>
-            )}
+                )}
             </div>
         </div>
     );
