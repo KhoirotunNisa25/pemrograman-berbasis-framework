@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import TampilanProduk from '../views/produk';
+import TampilanProduk from '../../views/produk';
 import useSWR from "swr";
-import fetcher from '../util/swr/fetcher';
+import fetcher from '../../util/swr/fetcher';
 
 
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());

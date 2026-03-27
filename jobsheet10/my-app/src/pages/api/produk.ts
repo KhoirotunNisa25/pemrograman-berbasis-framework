@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { retreiveProducts } from "../util/db/servicefirebase";
+import { retreiveProducts } from "../../util/db/servicefirebase";
 
 type Data = {
     status: boolean;
