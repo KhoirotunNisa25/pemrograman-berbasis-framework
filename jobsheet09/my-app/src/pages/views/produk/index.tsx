@@ -19,7 +19,7 @@ const TampilanProduk = ({ products }: { products: ProductType[] }) => {
                         <div key={product.id} className={styles.produk__content__item}>
                             <img src={product.image} alt={product.name} className={styles.produk__content__item__image} width="200" />
                             <h4 className={styles.produk__content__item__name}>{product.name}</h4>
-                            <p className={styles.produk__content__item__price}>Harga: Rp {product.price.toLocaleString()}</p>
+                            <p className={styles.produk__content__item__price}>Harga: Rp {product.price.toLocaleString("id-ID")}</p>
                             <p className={styles.produk__content__item__size}>Ukuran: {product.size}</p>
                             <p className={styles.produk__content__item__category}>Kategori: {product.category}</p>
                         </div>
