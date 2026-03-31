@@ -21,6 +21,7 @@ export async function getStaticProps() {
     return {
         props: {
             products: response.data
-        }
+        },
+        revalidate: 10, // Opsi revalidate untuk mengatur waktu pembaruan data (dalam detik)
     }
 }
