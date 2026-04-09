@@ -9,7 +9,7 @@ import fetcher from '../../util/swr/fetcher';
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const kategori = () => {
     // const [products, setProducts] = useState<ProductType[]>([]);
-
+    const { push } = useRouter();
     const [products, setProducts] = useState([]);
     const { data, error, isLoading } = useSWR("api/produk", fetcher);
 
