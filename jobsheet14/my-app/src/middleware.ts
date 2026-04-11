@@ -1,19 +1,26 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { getToken } from "next-auth/jwt";
+import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
-    // console.log("middleware");
-    const isLogin = true;
-    if (isLogin) {
-        return NextResponse.next();
-    } else {
-        return NextResponse.redirect(new URL("/auth/login", request.url));
+export async function middleware(req: NextRequest) {
+  const pathname = req.nextUrl.pathname;
+
+  // Protected routes
+  const protectedRoutes = ["/profile"];
+
+  if (protectedRoutes.includes(pathname)) {
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/auth/login", req.url));
     }
+  }
 
-    // return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/produk", "/about"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
-
