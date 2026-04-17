@@ -26,6 +26,12 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
+.register__error {
+  color: red;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
 .register__form__item {
   display: flex;
   flex-direction: column;

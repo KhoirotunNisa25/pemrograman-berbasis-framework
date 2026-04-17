@@ -33,12 +33,13 @@ const TampilanRegister = () => {
         } else {
             setIsLoading(false);
             setError(
-                response.status === 400 ? "User already exists" : "An error occurred. Please try again."
+                response.status === 400 ? "Email already exists" : "An error occurred. Please try again."
             );
         }
     };
     return (
         <div className={styles.register}>
+                {error && <p className={styles.register__error}>{error}</p>}
             <h1 className={styles.register__title}>Halaman Register</h1>
             {/* <button onClick={() => handlerRegister()}>Register</button> <br/> */}
             {/* <h1 style={{ color: "red",border: "1px solid red",borderRadius: "5px",padding: "5px",}}>sudah punya akun</h1> */}
@@ -93,8 +94,8 @@ const TampilanRegister = () => {
                         />
                     </div>
 
-                    <button type="submit" className={styles.register__form__item__button}>
-                        Register
+                    <button type="submit" className={styles.register__form__item__button} disabled={isLoading}>
+                        {isLoading ? "Loading..." : "Register"}
                     </button>
                 </form>
 
