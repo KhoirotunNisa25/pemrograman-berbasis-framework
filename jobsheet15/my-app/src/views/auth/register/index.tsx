@@ -1,14 +1,42 @@
 
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { use, useState } from "react";
 import styles from "./register.module.css";
 
 const TampilanRegister = () => {
-    // const { push } = useRouter();
-    // const handlerRegister = () => {
-    //     console.log("register berhasil");
-    //     push('/auth/login');
-    // }
+    const [isLoading, setIsLoading] = useState(false);
+    const { push } = useRouter();
+    const [error, setError] = useState("");
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const email = formData.get("email") as string;
+        const fullname = formData.get("fullname") as string;
+        const password = formData.get("password") as string;
+        const response = await fetch("/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, fullname, password }),
+        });
+        // const result = await response.json();
+        // console.log("Response from API:", result);
+        if (response.status == 200) {
+            // Handle successful registration
+            form.reset();
+            // event.currentTarget.reset();
+            setIsLoading(false);
+            push("/auth/login");
+        } else {
+            setIsLoading(false);
+            setError(
+                response.status === 400 ? "User already exists" : "An error occurred. Please try again."
+            );
+        }
+    };
     return (
         <div className={styles.register}>
             <h1 className={styles.register__title}>Halaman Register</h1>
@@ -16,7 +44,7 @@ const TampilanRegister = () => {
             {/* <h1 style={{ color: "red",border: "1px solid red",borderRadius: "5px",padding: "5px",}}>sudah punya akun</h1> */}
 
             <div className={styles.register__form}>
-                <form action="">
+                <form onSubmit={handleSubmit}>
                     <div className={styles.register__form__item}>
                         <label
                             htmlFor="email"
