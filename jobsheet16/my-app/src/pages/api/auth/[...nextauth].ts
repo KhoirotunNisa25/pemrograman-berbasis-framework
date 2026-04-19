@@ -41,11 +41,13 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, account, user }: any) {
+    async jwt({ token, account, profile, user }: any) {
       if (account?.provider === "credentials" && user) {
         token.email = user.email;
         token.fullname = user.fullname;
+        token.role = user.role;
       }
+      // console.log("JWT callback", { token, account, profile, user });
       return token;
     },
     async session({ session, token }: any) {
@@ -55,6 +57,10 @@ export const authOptions: NextAuthOptions = {
       if (token.fullname) {
         session.user.fullname = token.fullname;
       }
+      if (token.role) {
+        session.user.role = token.role;
+      }
+      // console.log("Session callback", { session, token });
       return session;
     },
   },

@@ -74,6 +74,7 @@ const TampilanLogin = () => {
     };
 
     return (
+    <>  
         <div className={styles.login}>
             {error && <p className={styles.login__error}>{error}</p>}
             <h1 className={styles.login__title}>Halaman Login</h1>
@@ -129,6 +130,7 @@ const TampilanLogin = () => {
                 </p>
             </div>
         </div>
+    </>
     );
 };
 
