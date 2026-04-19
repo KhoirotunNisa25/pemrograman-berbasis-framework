@@ -6,49 +6,71 @@ import { useState } from "react";
 import styles from "./login.module.scss";
 
 const TampilanLogin = () => {
-    const { push } = useRouter();
+    const { push, query } = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const callbackUrl = (query.callbackUrl as string) || "/";
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
         setError("");
-
-        const form = event.currentTarget;
-        const formData = new FormData(form);
-        const email = (formData.get("email") as string) || "";
-        const password = (formData.get("password") as string) || "";
-
-        if (!email.trim()) {
-            setError("Email is required");
-            return;
-        }
-
-        if (!password.trim()) {
-            setError("Password is required");
-            return;
-        }
-
         setIsLoading(true);
 
-        const result = await signIn("credentials", {
-            redirect: false,
-            email,
-            password,
-        });
+        // const form = event.currentTarget;
+        // const formData = new FormData(form);
+        // const email = (formData.get("email") as string) || "";
+        // const password = (formData.get("password") as string) || "";
 
-        setIsLoading(false);
+        // if (!email.trim()) {
+        //     setError("Email is required");
+        //     return;
+        // }
 
-        if (result?.error) {
-            setError("Email atau password salah");
-            return;
+        // if (!password.trim()) {
+        //     setError("Password is required");
+        //     return;
+        // }
+
+        // setIsLoading(true);
+
+        // const result = await signIn("credentials", {
+        //     redirect: false,
+        //     email,
+        //     password,
+        // });
+
+        // setIsLoading(false);
+
+        // if (result?.error) {
+        //     setError("Email atau password salah");
+        //     return;
+        // }
+
+        // if (typeof window !== "undefined") {
+        //     localStorage.setItem("isLogin", "true");
+        // }
+
+        // push("/produk");
+        try {
+            const res = await signIn("credentials", {
+                redirect: false,
+                email: event.target.email.value,
+                password: event.target.password.value,
+                callbackUrl,
+            });
+
+            // console.log("signIn result", res);
+            if (!res?.error){
+                setIsLoading(false);
+                push(callbackUrl);
+            } else {
+                setIsLoading(false);
+                setError(res?.error || "Login failed");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            setError("wrong email or password");
         }
-
-        if (typeof window !== "undefined") {
-            localStorage.setItem("isLogin", "true");
-        }
-
-        push("/produk");
     };
 
     return (
@@ -103,7 +125,7 @@ const TampilanLogin = () => {
 
                 <br />
                 <p className={styles.login__form__item__text}>
-                    Belum punya akun? <Link href="/auth/register">Ke Halaman Register</Link>
+                    Belum punya akun? <Link href="/auth/register">Daftar di sini</Link>
                 </p>
             </div>
         </div>
