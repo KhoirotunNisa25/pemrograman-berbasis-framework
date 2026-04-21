@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import styles from "./login.module.scss";
+import style from "styled-jsx/style";
 
 const TampilanLogin = () => {
     const { push, query } = useRouter();
@@ -129,6 +130,15 @@ const TampilanLogin = () => {
                         disabled={isLoading}
                     >
                         {isLoading ? "Loading..." : "Sign In with Google"}
+                    </button>
+                    <br />
+                    <br />
+                    <button 
+                        onClick={() => signIn("github", { callbackUrl, redirect: false })} 
+                        className={styles.login__form__item__button} 
+                        disabled={isLoading}
+                    >
+                        {isLoading ? "Loading..." : "Sign in with GitHub"}
                     </button>
                 </form>
 

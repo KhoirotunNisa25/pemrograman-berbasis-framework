@@ -1,9 +1,10 @@
-import { signIn, signInWithGoogle } from "@/util/db/servicefirebase";
+import { signIn, signInWithGoogle, signInWithGithub } from "@/util/db/servicefirebase";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
 // import { type } from "../../../../.next/dev/types/routes";
+import GithubProvider from "next-auth/providers/github";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -44,6 +45,10 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID || "",
+      clientSecret: process.env.GITHUB_SECRET || "",
+    }),
   ],
 
   callbacks: {
@@ -72,6 +77,23 @@ export const authOptions: NextAuthOptions = {
             token.image = data.image;
             token.type = data.type;
             token.role = res.data.role;
+          }
+        });
+      }
+      if (account?.provider === "github") {
+        const data = {
+          fullname: user.name,
+          email: user.email,
+          image: user.image,
+          type: account.provider,
+        };
+        await signInWithGithub(data, (result: any) => {
+          if (result.status) {
+            token.fullname = result.data.fullname;
+            token.email = result.data.email;
+            token.image = result.data.image;
+            token.type = result.data.type;
+            token.role = result.data.role;  
           }
         });
       }

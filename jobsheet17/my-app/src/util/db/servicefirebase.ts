@@ -130,3 +130,44 @@ export async function signInWithGoogle(userData: any, callback: any) {
     })
   }
 }
+
+export async function signInWithGithub(userData: any, callback: any) {
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("email", "==", userData.email),
+    );
+
+    const querySanpshot = await getDocs(q);
+    const data: any = querySanpshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    if (data.length > 0) {
+      // User sudah ada, update data dengan informasi dari GitHub
+      userData.role = data[0].role;
+      await updateDoc(doc(db, "users", data[0].id), userData);
+      callback({
+        status: true,
+        message: "User registered and logged in with GitHub",
+        data: userData,
+      });
+    } else {
+      // User belum ada, tambahkan ke database
+      userData.role = "member";
+      await addDoc(collection(db, "users"), userData);
+      callback({
+        status: true,
+        message: "User registered and logged in with GitHub",
+        data: userData,
+      });
+    }
+  } catch (error: any) {
+    // tangani error
+    callback({
+      status: false,
+      message: "Failed to register user with GitHub",
+    })
+  }
+}
