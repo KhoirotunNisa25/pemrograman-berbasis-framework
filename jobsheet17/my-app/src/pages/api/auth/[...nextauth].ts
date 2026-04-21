@@ -1,9 +1,9 @@
-import { signIn } from "@/util/db/servicefirebase";
+import { signIn, signInWithGoogle } from "@/util/db/servicefirebase";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
-import { type } from '../../../../.next/dev/types/routes';
+import { type } from "../../../../.next/dev/types/routes";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    })
+    }),
   ],
 
   callbacks: {
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       }
       // console.log("JWT callback", { token, account, profile, user });
       // Jika login dengan google, tambahkan informasi dari profile ke token
-      if (account?.provider === "google" ) {
+      if (account?.provider === "google") {
         const data = {
           fullname: user.name,
           email: user.email,
@@ -63,11 +63,17 @@ export const authOptions: NextAuthOptions = {
           type: account.provider,
         };
 
-        // console.log("Google profile data", data);
-        token.fullname = data.fullname;
-        token.email = data.email;
-        token.image = data.image;
-        token.type = data.type;
+        await signInWithGoogle(data, (res: any) => {
+          // pastikan mengecek result dari signInWithGoogle dan menambahkan informasi yang diperlukan ke token
+          if (res.status) {
+            // console.log("Google profile data", data);
+            token.fullname = data.fullname;
+            token.email = data.email;
+            token.image = data.image;
+            token.type = data.type;
+            token.role = res.data.role;
+          }
+        });
       }
       return token;
     },
