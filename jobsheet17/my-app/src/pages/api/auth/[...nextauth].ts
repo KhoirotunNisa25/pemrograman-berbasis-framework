@@ -3,7 +3,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
-import { type } from "../../../../.next/dev/types/routes";
+// import { type } from "../../../../.next/dev/types/routes";
 
 export const authOptions: NextAuthOptions = {
   session: {
