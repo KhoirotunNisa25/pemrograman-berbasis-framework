@@ -7,19 +7,16 @@ const createJestConfig = nextJest({
 
 const config = {
     testEnvironment: 'jsdom',
-     modulePath: ['<rootDir>/src/'],
+    moduleDirectories: ['node_modules', '<rootDir>/'],
+    setupFilesAfterEnv: ['<rootDir>/src/__test__/setup.ts'],
     collectCoverage: true,
     collectCoverageFrom: [
-        '**/*.{ts,tsx}',
-        '**/*.d.ts',
-        '!**/node_modules/**',
-        '!**/.next/**',
-        '!**/coverage/**',
-        '!**/jest.config.mjs',
-        '!**/next.config.mjs',
-        '!**/types/**',
-        '!**/views/**',
-        '!**/pages/api/**'
+        'src/**/*.{ts,tsx}',
+        '!src/**/*.d.ts',
+        '!src/pages/api/**',
+        '!src/**/__test__/**',
+        '!src/**/*.spec.{ts,tsx}',
+        '!src/**/__snapshots__/**'
     ]
 }
 

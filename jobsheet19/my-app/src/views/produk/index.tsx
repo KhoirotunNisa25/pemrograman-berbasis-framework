@@ -13,8 +13,8 @@ type ProductType = {
 const TampilanProduk = ({ products }: { products: ProductType[] }) => {
     return (
         <div className={styles.produk}>
-            <h1 className={styles.produk__title}>Daftar Produk</h1>
-            <div className={styles.produk__content}>
+            <h1 className={styles.produk__title} data-testid="title">Daftar Produk</h1>
+            <div className={styles.produk__content} data-testid="produk-content">
                 {products.length > 0 ? (
                     <>
                     {products.map((product: ProductType) => (
@@ -31,7 +31,7 @@ const TampilanProduk = ({ products }: { products: ProductType[] }) => {
                     </>
                 ) : (
                     Array.from({length: 6}).map((_, index) => (
-                        <div className={styles.produk__content__skeleton}>
+                        <div className={styles.produk__content__skeleton} data-testid="skeleton" key={`skeleton-${index}`}>
                             <div className={styles.produk__content__skeleton__image}></div>
                             <div className={styles.produk__content__skeleton__name}></div>
                             <div className={styles.produk__content__skeleton__price}></div>
